@@ -21,7 +21,8 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  tencent_im_sdk_plugin: ^3.2.0
+  tencent_trtc_cloud: ^1.1.2
+  tencent_im_sdk_plugin: ^3.2.0  
   cupertino_icons: ^1.0.3
   dio: ^4.0.0
   json_annotation: ^4.0.1
@@ -42,6 +43,7 @@ dependencies:
   loading_indicator: ^2.0.1
   fluttertoast: ^8.0.6
   webview_flutter: ^2.0.10
+  permission_handler: ^8.1.4+1
 
 dev_dependencies:
   flutter_test:
@@ -61,16 +63,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/logo.png
-    - images/person.png
-    - images/file.png
-    - images/voice_volume_1.png
-    - images/voice_volume_2.png
-    - images/voice_volume_3.png
-    - images/voice_volume_4.png
-    - images/voice_volume_5.png
-    - images/voice_volume_6.png
-    - images/voice_volume_7.png
+    - images/
+    - images/callingDemo/
+    - images/liveRoom/
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

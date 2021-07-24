@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final List<NavigationBarData> data = [
     NavigationBarData(
-      widget: Message(),
+      widget: Container(),
       // widget: Text("1"),
       title: "消息",
       selectedIcon: Icon(Icons.message),

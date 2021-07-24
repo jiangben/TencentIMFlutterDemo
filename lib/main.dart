@@ -12,6 +12,7 @@ import 'package:tencent_im_sdk_plugin_example/provider/friendApplication.dart';
 import 'package:tencent_im_sdk_plugin_example/provider/groupApplication.dart';
 import 'package:tencent_im_sdk_plugin_example/provider/keybooadshow.dart';
 import 'package:tencent_im_sdk_plugin_example/provider/user.dart';
+import './routes/routes.dart' as router;
 
 // 应用初始化时就加在登录页
 
@@ -34,8 +35,9 @@ void main() {
         ChangeNotifierProvider(create: (_) => KeyBoradModel()),
       ],
       child: MaterialApp(
-        home: LoginPage(),
         builder: EasyLoading.init(),
+        initialRoute: router.initialRoute,
+        routes: router.routes,
       ),
     ),
   );

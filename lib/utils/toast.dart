@@ -14,9 +14,9 @@ class Utils {
     );
   }
 
-  static void toastError(int code, String desc) {
+  static void toastError(String msg) {
     Fluttertoast.showToast(
-      msg: "code:$code,desc:$desc",
+      msg: msg,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,

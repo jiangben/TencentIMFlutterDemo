@@ -26,6 +26,8 @@ import 'package:dio/dio.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 
 import 'package:tencent_im_sdk_plugin/models/v2_tim_user_full_info.dart';
+import 'package:tencent_im_sdk_plugin_example/TRTCCallingDemo/ui/TRTCCallingContact.dart';
+import 'package:tencent_im_sdk_plugin_example/TRTCCallingDemo/ui/base/CallingScenes.dart';
 import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
 
 import 'package:tencent_im_sdk_plugin_example/pages/home/home.dart';
@@ -841,7 +843,7 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                   Container(
-                    width: 310,
+                    width: 270,
                     child: Text.rich(
                       TextSpan(
                           style: TextStyle(
@@ -948,15 +950,16 @@ class _LoginFormState extends State<LoginForm> {
                                   prefs.setString("flutter_userID", tel);
 
                                   // 加个群
-                                  await TencentImSDKPlugin.v2TIMManager
-                                      .joinGroup(
-                                    groupID: "@TGS#2FGN3DHHB",
-                                    message: "大家好",
-                                  );
+                                  // await TencentImSDKPlugin.v2TIMManager
+                                  //     .joinGroup(
+                                  //   groupID: "@TGS#2FGN3DHHB",
+                                  //   message: "大家好",
+                                  // );
                                   Navigator.push(
                                     context,
                                     new MaterialPageRoute(
-                                      builder: (context) => HomePage(),
+                                      builder: (context) => TRTCCallingContact(
+                                          CallingScenes.AudioOneVOne),
                                     ),
                                   );
                                 } else {
@@ -1034,14 +1037,14 @@ class _LoginFormState extends State<LoginForm> {
                               //   timer = 60;
                               //   isGeted = false;
                               // });
-                              userSigEtController.clear();
-                              telEtController.clear();
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => HomePage(),
-                                ),
-                              );
+                              // userSigEtController.clear();
+                              // telEtController.clear();
+                              // Navigator.push(
+                              //   context,
+                              //   new MaterialPageRoute(
+                              //     builder: (context) => HomePage(),
+                              //   ),
+                              // );
                             },
                     ),
                   )
