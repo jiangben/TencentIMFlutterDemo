@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/currentMessageList.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/keybooadshow.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/provider/currentMessageList.dart';
+import 'package:listen/provider/keybooadshow.dart';
+import 'package:listen/utils/toast.dart';
 
 class TextMsg extends StatefulWidget {
   final String toUser;

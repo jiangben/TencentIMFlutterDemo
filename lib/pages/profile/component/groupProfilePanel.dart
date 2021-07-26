@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_group_info.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_group_info_result.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/avatar.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/common/avatar.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/utils/toast.dart';
 
 class GroupProfilePanel extends StatelessWidget {
   GroupProfilePanel(this.userInfo);

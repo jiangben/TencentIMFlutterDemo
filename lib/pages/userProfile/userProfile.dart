@@ -5,14 +5,14 @@ import 'package:tencent_im_sdk_plugin/models/v2_tim_friend_info_result.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_friend_operation_result.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/conversion.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/addToBlackList.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/friendProfilePanel.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/listGap.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/userRemak.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/friend.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/pages/conversion/conversion.dart';
+import 'package:listen/pages/profile/component/addToBlackList.dart';
+import 'package:listen/pages/profile/component/friendProfilePanel.dart';
+import 'package:listen/pages/profile/component/listGap.dart';
+import 'package:listen/pages/profile/component/userRemak.dart';
+import 'package:listen/provider/friend.dart';
+import 'package:listen/utils/toast.dart';
 
 class UserProfile extends StatefulWidget {
   UserProfile(this.userID);

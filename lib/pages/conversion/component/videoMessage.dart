@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/utils/toast.dart';
 
 import 'package:video_player/video_player.dart';
 // import 'package:videos_player/model/video.model.dart';

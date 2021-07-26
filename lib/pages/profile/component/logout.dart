@@ -3,15 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_callback.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/arrowRight.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/login/login.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/TextWithCommonStyle.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/conversion.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/currentMessageList.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/friend.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/friendApplication.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/groupApplication.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/user.dart';
+import 'package:listen/common/arrowRight.dart';
+import 'package:listen/pages/login/login.dart';
+import 'package:listen/pages/profile/component/TextWithCommonStyle.dart';
+import 'package:listen/provider/conversion.dart';
+import 'package:listen/provider/currentMessageList.dart';
+import 'package:listen/provider/friend.dart';
+import 'package:listen/provider/friendApplication.dart';
+import 'package:listen/provider/groupApplication.dart';
+import 'package:listen/provider/user.dart';
 
 class Logout extends StatelessWidget {
   @override

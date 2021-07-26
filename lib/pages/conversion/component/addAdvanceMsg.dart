@@ -8,13 +8,13 @@ import 'package:provider/provider.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/hexToColor.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/advanceMsgItem.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/dataInterface/advanceMsgList.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/currentMessageList.dart';
+import 'package:listen/common/hexToColor.dart';
+import 'package:listen/pages/conversion/component/advanceMsgItem.dart';
+import 'package:listen/pages/conversion/dataInterface/advanceMsgList.dart';
+import 'package:listen/provider/currentMessageList.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/utils/toast.dart';
 // import 'package:video_player/video_player.dart';
 
 class AdvanceMsg extends StatelessWidget {

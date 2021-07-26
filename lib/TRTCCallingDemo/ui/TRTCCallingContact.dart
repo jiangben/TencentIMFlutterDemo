@@ -2,15 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tencent_im_sdk_plugin_example/TRTCCallingDemo/model/TRTCCallingDelegate.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/GenerateTestUserSig.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/TxUtils.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/ProfileManager_Mock.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/config.dart';
+import 'package:listen/TRTCCallingDemo/model/TRTCCallingDelegate.dart';
+import 'package:listen/utils/GenerateTestUserSig.dart';
+import 'package:listen/utils/ProfileManager_Mock.dart';
+import 'package:listen/utils/config.dart';
 import '../model/TRTCCalling.dart';
 import 'base/CallTypes.dart';
 import 'base/CallingScenes.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/utils/toast.dart' as toast;
 import 'package:permission_handler/permission_handler.dart';
 
 class TRTCCallingContact extends StatefulWidget {
@@ -56,7 +55,7 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
   //发起通话
   onCallClick(UserModel userInfo) async {
     if (userInfo.userId == myLoginInfoId) {
-      Utils.toastError('不能呼叫自己');
+      toast.Utils.toastError('不能呼叫自己');
       return;
     }
     Navigator.pushReplacementNamed(
@@ -83,11 +82,12 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
     if ((await Permission.camera.request().isGranted &&
         await Permission.microphone.request().isGranted)) {
     } else {
-      Utils.toastError('需要获取音视频权限才能进入');
+      toast.Utils.toastError('需要获取音视频权限才能进入');
       return;
     }
     _profileManager = await ProfileManager.getInstance();
     sInstance = await TRTCCalling.sharedInstance();
+
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     SharedPreferences prefs = await _prefs;
     String loginId = prefs.getString("flutter_userID")!;
@@ -100,7 +100,7 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
     sInstance.unRegisterListener(onTrtcListener);
     sInstance.registerListener(onTrtcListener);
     if (loginId == '') {
-      Utils.toastError("请先登录。");
+      toast.Utils.toastError("请先登录。");
       goLoginPage();
     } else {
       setState(() {

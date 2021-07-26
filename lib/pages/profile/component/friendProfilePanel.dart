@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_friend_info_result.dart';
-import 'package:tencent_im_sdk_plugin_example/common/avatar.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
+import 'package:listen/common/avatar.dart';
+import 'package:listen/common/colors.dart';
 
 class FriendProfilePanel extends StatelessWidget {
   FriendProfilePanel(this.userInfo, this.isSelf);

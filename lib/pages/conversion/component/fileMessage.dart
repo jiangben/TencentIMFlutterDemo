@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
-import 'package:tencent_im_sdk_plugin_example/common/avatar.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/common/avatar.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/utils/toast.dart';
 
 class FileMessage extends StatelessWidget {
   final V2TimMessage message;

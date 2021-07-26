@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
-import 'package:tencent_im_sdk_plugin_example/common/avatar.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/MsgBody.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/fixPosition.dart';
+import 'package:listen/common/avatar.dart';
+import 'package:listen/pages/conversion/component/MsgBody.dart';
+import 'package:listen/pages/conversion/component/fixPosition.dart';
 
 class SendMsg extends StatelessWidget {
   SendMsg(this.message, this.key);

@@ -1,4 +1,4 @@
-package com.qq.qcloud.tencent_im_sdk_plugin_example;
+package com.qq.qcloud.listen;
 
 import io.flutter.embedding.android.FlutterActivity;
 

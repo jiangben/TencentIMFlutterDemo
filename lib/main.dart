@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:tencent_im_sdk_plugin_example/custom_animation.dart';
+import 'package:listen/custom_animation.dart';
 
-import 'package:tencent_im_sdk_plugin_example/pages/login/login.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/conversion.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/currentMessageList.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/friend.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/friendApplication.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/groupApplication.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/keybooadshow.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/user.dart';
+import 'package:listen/pages/login/login.dart';
+import 'package:listen/provider/conversion.dart';
+import 'package:listen/provider/currentMessageList.dart';
+import 'package:listen/provider/friend.dart';
+import 'package:listen/provider/friendApplication.dart';
+import 'package:listen/provider/groupApplication.dart';
+import 'package:listen/provider/keybooadshow.dart';
+import 'package:listen/provider/user.dart';
 import './routes/routes.dart' as router;
 
 // 应用初始化时就加在登录页

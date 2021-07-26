@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
+import 'package:listen/common/colors.dart';
 
 // ignore: must_be_immutable
 class Avatar extends StatelessWidget {

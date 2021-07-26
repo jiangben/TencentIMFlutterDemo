@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tencent_im_sdk_plugin_example/common/arrowRight.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/TextWithCommonStyle.dart';
+import 'package:listen/common/arrowRight.dart';
+import 'package:listen/pages/profile/component/TextWithCommonStyle.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Privacy extends StatelessWidget {

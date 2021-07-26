@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_friend_application.dart';
-import 'package:tencent_im_sdk_plugin_example/common/arrowRight.dart';
-import 'package:tencent_im_sdk_plugin_example/common/avatar.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/friendNotice/friendNotice.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/friendApplication.dart';
+import 'package:listen/common/arrowRight.dart';
+import 'package:listen/common/avatar.dart';
+import 'package:listen/pages/friendNotice/friendNotice.dart';
+import 'package:listen/provider/friendApplication.dart';
 
 class FrientNotice extends StatelessWidget {
   Widget build(BuildContext context) {

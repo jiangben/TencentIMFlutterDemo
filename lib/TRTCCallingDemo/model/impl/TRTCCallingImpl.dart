@@ -354,7 +354,7 @@ class TRTCCallingImpl extends TRTCCalling {
           }));
       if (initRes.code != 0) {
         //初始化sdk错误
-        return ActionCallback(code: 0, desc: 'init im sdk error');
+        return ActionCallback(code: codeErr, desc: 'init im sdk error');
       }
     }
     mIsInitIMSDK = true;

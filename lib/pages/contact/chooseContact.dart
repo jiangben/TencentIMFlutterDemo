@@ -4,11 +4,11 @@ import 'package:tencent_im_sdk_plugin/enum/group_type.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_friend_info.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/avatar.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/common/hexToColor.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/conversion.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/common/avatar.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/common/hexToColor.dart';
+import 'package:listen/pages/conversion/conversion.dart';
+import 'package:listen/utils/toast.dart';
 
 class ChooseContact extends StatefulWidget {
   ChooseContact(this.type, this.groupID);

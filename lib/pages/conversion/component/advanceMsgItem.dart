@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/dataInterface/advanceMsgList.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/pages/conversion/dataInterface/advanceMsgList.dart';
 
 class AdvanceMsgItem extends StatelessWidget {
   onPressed() {

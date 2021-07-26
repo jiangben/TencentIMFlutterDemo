@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversationInfo/conversationInfo.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/conversationInner.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/msgInput.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/pages/conversationInfo/conversationInfo.dart';
+import 'package:listen/pages/conversion/component/conversationInner.dart';
+import 'package:listen/pages/conversion/component/msgInput.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_conversation.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/userProfile/userProfile.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/currentMessageList.dart';
+import 'package:listen/pages/userProfile/userProfile.dart';
+import 'package:listen/provider/currentMessageList.dart';
 
 class Conversion extends StatefulWidget {
   Conversion(this.conversationID);

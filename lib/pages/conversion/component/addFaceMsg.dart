@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:tencent_im_sdk_plugin_example/common/hexToColor.dart';
-import 'package:tencent_im_sdk_plugin_example/models/emoji/emoji.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/emojiData.dart';
+import 'package:listen/common/hexToColor.dart';
+import 'package:listen/models/emoji/emoji.dart';
+import 'package:listen/utils/emojiData.dart';
 
 class FaceMsg extends StatelessWidget {
   FaceMsg(this.toUser, this.type);

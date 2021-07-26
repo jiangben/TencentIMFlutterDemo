@@ -8,16 +8,16 @@ import 'package:tencent_im_sdk_plugin/models/v2_tim_group_application.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_group_application_result.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/avatar.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/blackList/blackList.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/contact/component/FriendNotice.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/friendNotice/friendNotice.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/goups/goups.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/userProfile/userProfile.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/friend.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/friendApplication.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/groupApplication.dart';
+import 'package:listen/common/avatar.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/pages/blackList/blackList.dart';
+import 'package:listen/pages/contact/component/FriendNotice.dart';
+import 'package:listen/pages/friendNotice/friendNotice.dart';
+import 'package:listen/pages/goups/goups.dart';
+import 'package:listen/pages/userProfile/userProfile.dart';
+import 'package:listen/provider/friend.dart';
+import 'package:listen/provider/friendApplication.dart';
+import 'package:listen/provider/groupApplication.dart';
 
 class Contact extends StatefulWidget {
   State<StatefulWidget> createState() => ConcatState();

@@ -3,14 +3,14 @@ import 'package:flutter/widgets.dart';
 import 'package:tencent_im_sdk_plugin/enum/message_elem_type.dart';
 import 'package:tencent_im_sdk_plugin/enum/message_status.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/common/hexToColor.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/SystemMessage.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/customMessage.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/fileMessage.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/imageMessage.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/soundMessage.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/videoMessage.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/common/hexToColor.dart';
+import 'package:listen/pages/conversion/component/SystemMessage.dart';
+import 'package:listen/pages/conversion/component/customMessage.dart';
+import 'package:listen/pages/conversion/component/fileMessage.dart';
+import 'package:listen/pages/conversion/component/imageMessage.dart';
+import 'package:listen/pages/conversion/component/soundMessage.dart';
+import 'package:listen/pages/conversion/component/videoMessage.dart';
 
 class MsgBody extends StatelessWidget {
   TextDirection textDirection = TextDirection.rtl;

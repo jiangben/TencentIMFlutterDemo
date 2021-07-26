@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_friend_info_result.dart';
-import 'package:tencent_im_sdk_plugin_example/common/arrowRight.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/textWithCommonStyle.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/userNick/userNick.dart';
+import 'package:listen/common/arrowRight.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/pages/profile/component/textWithCommonStyle.dart';
+import 'package:listen/pages/userNick/userNick.dart';
 
 class UserRemark extends StatelessWidget {
   UserRemark(this.userInfo, this.getUserInfo);

@@ -5,12 +5,26 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 
+import 'config.dart';
+
 ///生成腾讯云即时通信测试用userSig
 ///
 class GenerateTestUserSig {
   GenerateTestUserSig({required this.sdkappid, required this.key});
   int sdkappid;
   String key;
+
+  static GenerateTestUserSig? _instance;
+
+  static getInstance() {
+    if (_instance == null) {
+      _instance = new GenerateTestUserSig(
+        sdkappid: Config.sdkappid,
+        key: Config.key,
+      );
+    }
+    return _instance;
+  }
 
   ///生成UserSig
   String genSig({

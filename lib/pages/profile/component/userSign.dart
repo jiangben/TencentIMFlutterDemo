@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_user_full_info.dart';
-import 'package:tencent_im_sdk_plugin_example/common/arrowRight.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/textWithCommonStyle.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/selfSign/selfSign.dart';
+import 'package:listen/common/arrowRight.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/pages/profile/component/textWithCommonStyle.dart';
+import 'package:listen/pages/selfSign/selfSign.dart';
 
 class UserSign extends StatelessWidget {
   UserSign(this.userInfo);

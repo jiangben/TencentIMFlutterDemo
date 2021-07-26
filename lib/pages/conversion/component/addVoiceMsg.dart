@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/keybooadshow.dart';
+import 'package:listen/provider/keybooadshow.dart';
 
 class VoiceMsg extends StatefulWidget {
   VoiceMsg(this.toUser, this.type);

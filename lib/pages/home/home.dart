@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tencent_im_sdk_plugin_example/common/hexToColor.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/contact/component/contactPopupMenu.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/contact/contact.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/message/message.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/profile.dart';
+import 'package:listen/common/hexToColor.dart';
+import 'package:listen/pages/contact/component/contactPopupMenu.dart';
+import 'package:listen/pages/contact/contact.dart';
+import 'package:listen/pages/message/message.dart';
+import 'package:listen/pages/profile/profile.dart';
 
 import 'component/popupMenu.dart';
 

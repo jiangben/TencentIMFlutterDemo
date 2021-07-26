@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_user_full_info.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/addFriendSetting.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/blog.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/buy.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/listGap.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/logout.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/profilePanel.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/privacy.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/exonerate.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/testApi.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/userSign.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/contact.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/user.dart';
+import 'package:listen/pages/profile/component/addFriendSetting.dart';
+import 'package:listen/pages/profile/component/blog.dart';
+import 'package:listen/pages/profile/component/buy.dart';
+import 'package:listen/pages/profile/component/listGap.dart';
+import 'package:listen/pages/profile/component/logout.dart';
+import 'package:listen/pages/profile/component/profilePanel.dart';
+import 'package:listen/pages/profile/component/privacy.dart';
+import 'package:listen/pages/profile/component/exonerate.dart';
+import 'package:listen/pages/profile/component/testApi.dart';
+import 'package:listen/pages/profile/component/userSign.dart';
+import 'package:listen/pages/profile/component/contact.dart';
+import 'package:listen/provider/user.dart';
 
 class Profile extends StatefulWidget {
   State<StatefulWidget> createState() => ProfileState();

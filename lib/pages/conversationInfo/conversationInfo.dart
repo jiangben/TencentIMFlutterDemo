@@ -10,14 +10,14 @@ import 'package:tencent_im_sdk_plugin/models/v2_tim_group_member_full_info.dart'
 import 'package:tencent_im_sdk_plugin/models/v2_tim_group_member_info_result.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/avatar.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/allMembers/allMembers.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/contact/chooseContact.dart';
+import 'package:listen/common/avatar.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/pages/allMembers/allMembers.dart';
+import 'package:listen/pages/contact/chooseContact.dart';
 
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/groupProfilePanel.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/profile/component/listGap.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/pages/profile/component/groupProfilePanel.dart';
+import 'package:listen/pages/profile/component/listGap.dart';
+import 'package:listen/utils/toast.dart';
 
 class ConversationInfo extends StatefulWidget {
   ConversationInfo(this.id, this.type);

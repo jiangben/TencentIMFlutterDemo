@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/search/search.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/pages/search/search.dart';
 
 class ContactMenuItem extends StatelessWidget {
   ContactMenuItem(this.name);

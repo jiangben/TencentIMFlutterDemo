@@ -10,11 +10,11 @@ import 'package:tencent_im_sdk_plugin/models/v2_tim_group_application.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_group_application_result.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/avatar.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/friendApplication.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/groupApplication.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/common/avatar.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/provider/friendApplication.dart';
+import 'package:listen/provider/groupApplication.dart';
+import 'package:listen/utils/toast.dart';
 
 class NewFriendOrGroupNotice extends StatefulWidget {
   final int type;

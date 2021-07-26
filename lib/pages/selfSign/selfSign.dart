@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_callback.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_user_full_info.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
+import 'package:listen/common/colors.dart';
 
 class SelfSign extends StatefulWidget {
   @override

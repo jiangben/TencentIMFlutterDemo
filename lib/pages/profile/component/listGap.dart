@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
+import 'package:listen/common/colors.dart';
 
 class ListGap extends StatelessWidget {
   @override

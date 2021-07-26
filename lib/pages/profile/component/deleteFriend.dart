@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tencent_im_sdk_plugin_example/common/hexToColor.dart';
+import 'package:listen/common/hexToColor.dart';
 
 class DeleteFriend extends StatelessWidget {
   @override

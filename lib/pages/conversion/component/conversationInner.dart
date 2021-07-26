@@ -4,8 +4,8 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/component/sendMsg.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/currentMessageList.dart';
+import 'package:listen/pages/conversion/component/sendMsg.dart';
+import 'package:listen/provider/currentMessageList.dart';
 
 class ConversationInner extends StatefulWidget {
   ConversationInner(this.conversationID, this.type, this.userID, this.groupID);

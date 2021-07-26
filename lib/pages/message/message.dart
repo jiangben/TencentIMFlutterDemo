@@ -4,15 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:tencent_im_sdk_plugin/enum/message_elem_type.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_conversation_result.dart';
-import 'package:tencent_im_sdk_plugin_example/common/avatar.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
-import 'package:tencent_im_sdk_plugin_example/common/hexToColor.dart';
-import 'package:tencent_im_sdk_plugin_example/pages/conversion/conversion.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/conversion.dart';
+import 'package:listen/common/avatar.dart';
+import 'package:listen/common/colors.dart';
+import 'package:listen/common/hexToColor.dart';
+import 'package:listen/pages/conversion/conversion.dart';
+import 'package:listen/provider/conversion.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_conversation.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
-import 'package:tencent_im_sdk_plugin_example/utils/toast.dart';
+import 'package:listen/utils/toast.dart';
 
 class Message extends StatefulWidget {
   State<StatefulWidget> createState() => MessageState();

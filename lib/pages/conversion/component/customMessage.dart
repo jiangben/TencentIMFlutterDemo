@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
-import 'package:tencent_im_sdk_plugin_example/common/colors.dart';
+import 'package:listen/common/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CustomMessage extends StatefulWidget {

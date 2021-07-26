@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
-import 'package:tencent_im_sdk_plugin_example/provider/currentMessageList.dart';
+import 'package:listen/provider/currentMessageList.dart';
 
 List<Map<String, Object>> emojiData = [
   {"name": "GRINNING FACE WITH SMILING EYES", "unicode": 128513},
