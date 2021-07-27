@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_plugin_record/flutter_plugin_record.dart';
 import 'package:provider/provider.dart';
@@ -195,30 +196,40 @@ class TextMsgState extends State<TextMsg> {
                   borderRadius: BorderRadius.circular(4),
                   color: Colors.white,
                 ),
-                child: TextField(
-                  controller: inputController,
-                  onSubmitted: (s) {
-                    onSubmitted(s, context);
-                  },
-                  autocorrect: false,
-                  textAlign: TextAlign.left,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.send,
-                  cursorColor: CommonColors.getThemeColor(),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    isCollapsed: true,
-                    isDense: true,
-                    contentPadding: EdgeInsets.only(
-                      top: 9,
-                      bottom: 0,
-                    ),
-                  ),
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                  minLines: 1,
-                ),
+                child: RawKeyboardListener(
+                    focusNode: FocusNode(),
+                    onKey: (event) {
+                      print("key input");
+                      print(event.data.logicalKey.keyId);
+                      if (event.runtimeType == RawKeyDownEvent &&
+                          (event.logicalKey.keyId == 4295426088)) {
+                        onSubmitted(this.inputController.text, context);
+                      }
+                    },
+                    child: TextFormField(
+                      controller: inputController,
+                      onFieldSubmitted: (inputController) {
+                        onSubmitted(this.inputController.text, context);
+                      },
+                      autocorrect: false,
+                      textAlign: TextAlign.left,
+                      keyboardType: TextInputType.multiline,
+                      textInputAction: TextInputAction.send,
+                      cursorColor: CommonColors.getThemeColor(),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        isCollapsed: true,
+                        isDense: true,
+                        contentPadding: EdgeInsets.only(
+                          top: 9,
+                          bottom: 0,
+                        ),
+                      ),
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                      minLines: 1,
+                    )),
               ),
             )
           : GestureDetector(
