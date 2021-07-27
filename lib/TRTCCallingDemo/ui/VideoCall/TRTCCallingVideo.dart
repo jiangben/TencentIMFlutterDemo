@@ -24,10 +24,10 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
   CallStatus _currentCallStatus = CallStatus.calling;
   CallTypes _currentCallType = CallTypes.Type_Call_Someone;
   CallingScenes _callingScenes = CallingScenes.AudioOneVOne;
-  int _groupId = 0;
   //已经通话时长
   String _hadCallingTime = "00:00";
   late DateTime _startAnswerTime;
+  int _groupId = 0;
   bool _isCameraOff = false;
   bool _isHandsFree = true;
   bool _isMicrophoneOff = false;
@@ -112,7 +112,6 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
       _remoteUserInfo = arguments['remoteUserInfo'] as UserModel;
       _currentCallType = arguments["callType"] as CallTypes;
       _callingScenes = arguments['callingScenes'] as CallingScenes;
-      _groupId = arguments['groupId'] as int;
       Future.delayed(Duration(microseconds: 100), () {
         if (_currentCallType == CallTypes.Type_Call_Someone) {
           _tRTCCallingService.groupCall(
@@ -120,7 +119,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
               _callingScenes == CallingScenes.VideoOneVOne
                   ? TRTCCalling.typeVideoCall
                   : TRTCCalling.typeAudioCall,
-              _groupId);
+              null);
         }
       });
     });
@@ -132,6 +131,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
       _startAnswerTime = DateTime.now();
       safeSetState(() async {
         _currentCallStatus = CallStatus.answer;
+        _groupId = _tRTCCallingService.getRoomId();
         _hadCallingTime = "00:00";
         if (_bigVideoViewId != -1) {
           await _tRTCCallingService.startRemoteView(
@@ -283,6 +283,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
     await _tRTCCallingService.accept();
     safeSetState(() {
       _currentCallStatus = CallStatus.answer;
+      _groupId = _tRTCCallingService.getRoomId();
     });
   }
 
@@ -617,18 +618,20 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
           backgroundColor: Color(int.parse('006fff', radix: 16)).withAlpha(255),
           title: Text("倾听聊天室"),
           centerTitle: true,
-          actions: [
-            IconButton(
-              icon: Icon(Icons.chat),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => Conversion('group_$_groupId'),
-                  ),
-                );
-              },
-            )
+          actions: <Widget>[
+            _currentCallStatus == CallStatus.answer && _groupId != 0
+                ? IconButton(
+                    icon: Icon(Icons.chat),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => Conversion('group_$_groupId'),
+                        ),
+                      );
+                    },
+                  )
+                : Container()
           ]),
       body: WillPopScope(
         onWillPop: () async {

@@ -169,4 +169,6 @@ abstract class TRTCCalling {
   * @param isHandsFree true:开启免提 false:关闭免提
   */
   Future<void> setHandsFree(bool isHandsFree);
+
+  int getRoomId();
 }

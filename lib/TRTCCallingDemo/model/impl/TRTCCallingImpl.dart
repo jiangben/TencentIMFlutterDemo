@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:tencent_im_sdk_plugin/enum/V2TimSDKListener.dart';
@@ -225,6 +226,11 @@ class TRTCCallingImpl extends TRTCCalling {
           }
           if (customMap.containsKey('room_id')) {
             mCurRoomID = customMap['room_id'];
+            V2TimCallback joinRes = await timManager.joinGroup(
+                groupID: mCurRoomID.toString(), message: '');
+            if (joinRes.code != 0) {
+              print(logTag + "joinGroup error" + joinRes.desc);
+            }
           }
         } catch (e) {
           print(logTag +
@@ -259,8 +265,7 @@ class TRTCCallingImpl extends TRTCCalling {
           'sponsor': inviter,
           'userIds': inviteeList.remove(mCurUserId),
           'isFromGroup': !_isEmpty(groupID),
-          'type': mCurCallType,
-          "groupId": groupID,
+          'type': mCurCallType
         });
       },
     );
@@ -439,6 +444,11 @@ class TRTCCallingImpl extends TRTCCalling {
     return customMap;
   }
 
+  @override
+  int getRoomId() {
+    return mCurRoomID;
+  }
+
   /*
   * trtc 进房
   */
@@ -516,16 +526,16 @@ class TRTCCallingImpl extends TRTCCalling {
       }
     }
 
-    if (code == 0 || code == 10013) {
-      timManager.getGroupManager().setGroupInfo(
-              info: V2TimGroupInfo(
-            groupType: 'Meeting',
-            groupName: roomId.toString(),
-            groupID: roomId.toString(),
-            groupAddOpt: GroupAddOptType.V2TIM_GROUP_ADD_ANY,
-            introduction: loginedUserId,
-          ));
-    }
+    // if (code == 0 || code == 10013) {
+    //   timManager.getGroupManager().setGroupInfo(
+    //           info: V2TimGroupInfo(
+    //         groupType: 'Meeting',
+    //         groupName: roomId.toString(),
+    //         groupID: roomId.toString(),
+    //         groupAddOpt: GroupAddOptType.V2TIM_GROUP_ADD_ANY,
+    //         introduction: loginedUserId,
+    //       ));
+    // }
     return ActionCallback(code: code, desc: desc);
   }
 
@@ -537,7 +547,7 @@ class TRTCCallingImpl extends TRTCCalling {
     }
     if (!isOnCalling) {
       // 首次拨打电话，生成id，并进入trtc房间
-      mCurRoomID = groupId!;
+      mCurRoomID = groupId != null ? groupId : _generateRoomID();
       mCurCallType = type;
       _enterTRTCRoom();
     }
@@ -571,7 +581,7 @@ class TRTCCallingImpl extends TRTCCalling {
           data: jsonEncode(_getCustomMap()),
           timeout: timeOutCount,
           onlineUserOnly: false);
-      // mCurCallList.add({'userId': mCurInvitedList[i], 'callId': res.data});
+      mCurCallList.add({'userId': mCurInvitedList[i], 'callId': res.data});
     }
     return ActionCallback(code: res.code, desc: res.desc);
     // } else {

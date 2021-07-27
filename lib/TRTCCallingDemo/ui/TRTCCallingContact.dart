@@ -69,17 +69,17 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
     });
   }
 
-  bool verifyMeetingId(String _meetingNumber) {
-    String meetId = _meetingNumber.replaceAll(new RegExp(r"\s+\b|\b\s"), "");
-    if (meetId == '' || meetId == '0') {
-      return false;
-    } else if (meetId.toString().length > 10) {
-      return false;
-    } else if (!new RegExp(r"[0-9]+$").hasMatch(meetId)) {
-      return false;
-    }
-    return true;
-  }
+  // bool verifyMeetingId(String _meetingNumber) {
+  //   String meetId = _meetingNumber.replaceAll(new RegExp(r"\s+\b|\b\s"), "");
+  //   if (meetId == '' || meetId == '0') {
+  //     return false;
+  //   } else if (meetId.toString().length > 10) {
+  //     return false;
+  //   } else if (!new RegExp(r"[0-9]+$").hasMatch(meetId)) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   //发起通话
   onCallClick(UserModel userInfo) async {
@@ -87,19 +87,18 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
       toast.Utils.toastError('不能呼叫自己');
       return;
     }
-    _meetingNumber = Utils.getRandomNumber();
-    if (!verifyMeetingId(_meetingNumber.toString())) {
-      toast.Utils.toastError('会议号错误');
-      return;
-    }
+    // _meetingNumber = Utils.getRandomNumber();
+    // if (!verifyMeetingId(_meetingNumber.toString())) {
+    //   toast.Utils.toastError('会议号错误');
+    //   return;
+    // }
     Navigator.pushNamed(
       context,
       "/calling/callingView",
       arguments: {
         "remoteUserInfo": userInfo,
         "callType": CallTypes.Type_Call_Someone,
-        "callingScenes": widget.callingScenes,
-        "groupId": _meetingNumber,
+        "callingScenes": widget.callingScenes
       },
     );
   }
@@ -383,18 +382,13 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
         {
           UserModel userInfo = await _profileManager
               .querySingleUserInfo(params["sponsor"].toString());
-          Navigator.pushNamed(
-            context,
-            "/calling/callingView",
-            arguments: {
-              "remoteUserInfo": userInfo,
-              "callType": CallTypes.Type_Being_Called,
-              "callingScenes": params['type'] == TRTCCalling.typeVideoCall
-                  ? CallingScenes.VideoOneVOne
-                  : CallingScenes.AudioOneVOne,
-              "groupId": params['groupId'],
-            },
-          );
+          Navigator.pushNamed(context, "/calling/callingView", arguments: {
+            "remoteUserInfo": userInfo,
+            "callType": CallTypes.Type_Being_Called,
+            "callingScenes": params['type'] == TRTCCalling.typeVideoCall
+                ? CallingScenes.VideoOneVOne
+                : CallingScenes.AudioOneVOne
+          });
         }
         break;
     }

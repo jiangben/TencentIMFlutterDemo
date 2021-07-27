@@ -21,7 +21,7 @@ class Conversion extends StatefulWidget {
 class ConversionState extends State<Conversion> {
   String conversationID;
   int type = 1;
-  String lastMessageId = '';
+  String? lastMessageId = '';
   String? userID;
   String? groupID;
   List<V2TimMessage> msgList = List.empty(growable: true);
@@ -53,12 +53,13 @@ class ConversionState extends State<Conversion> {
         .v2TIMManager
         .getConversationManager()
         .getConversation(conversationID: conversationID);
-    late String _msgID;
+    late String? _msgID;
     late int _type;
     late String? _groupID;
     late String? _userID;
     if (data.code == 0) {
-      _msgID = data.data!.lastMessage!.msgID!;
+      _msgID =
+          data.data!.lastMessage != null ? data.data!.lastMessage!.msgID : "";
       _type = data.data!.type!;
       _groupID = data.data!.groupID;
       _userID = data.data!.userID;
