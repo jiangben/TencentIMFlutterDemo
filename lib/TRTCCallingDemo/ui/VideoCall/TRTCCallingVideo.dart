@@ -40,7 +40,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
   double _smallViewRight = 20;
   //为false的时候，在已接听状态的时候。小画面显示本地视频，大画面显示远端视频。
   bool isChangeBigSmallVideo = false;
-  UserModel? _remoteUserInfo;
+  UserInfo? _remoteUserInfo;
   //远端画面可见不可见
   bool _remoteUserAvailable = true;
 
@@ -109,7 +109,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
   initRemoteInfo() async {
     Map arguments = ModalRoute.of(context)!.settings.arguments! as Map;
     safeSetState(() {
-      _remoteUserInfo = arguments['remoteUserInfo'] as UserModel;
+      _remoteUserInfo = arguments['remoteUserInfo'] as UserInfo;
       _currentCallType = arguments["callType"] as CallTypes;
       _callingScenes = arguments['callingScenes'] as CallingScenes;
       Future.delayed(Duration(microseconds: 100), () {

@@ -5,12 +5,12 @@ import 'package:listen/utils/http.dart';
 import 'utils.dart';
 import 'globalDef.dart' as globalDef;
 
-class UserModel {
+class UserInfo {
   String phone;
   String name;
   String avatar;
   String userId;
-  UserModel(
+  UserInfo(
       {this.phone = '', this.name = '', this.avatar = '', this.userId = ''});
 }
 
@@ -24,9 +24,9 @@ class ProfileManager {
     return _instance;
   }
 
-  Future<List<UserModel>> queryUserInfo(String userId) {
+  Future<List<UserInfo>> queryUserInfo(String userId) {
     return Future.value([
-      UserModel(
+      UserInfo(
           phone: userId,
           name: userId,
           avatar: Utils.getDefaltAvatarUrl(),
@@ -34,8 +34,8 @@ class ProfileManager {
     ]);
   }
 
-  Future<UserModel> querySingleUserInfo(String userId) {
-    return Future.value(UserModel(
+  Future<UserInfo> querySingleUserInfo(String userId) {
+    return Future.value(UserInfo(
         phone: userId,
         name: userId,
         avatar: Utils.getDefaltAvatarUrl(),

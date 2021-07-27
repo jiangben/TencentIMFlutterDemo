@@ -6,7 +6,8 @@ import 'package:listen/provider/currentMessageList.dart';
 import 'package:listen/provider/friend.dart';
 import 'package:listen/provider/friendApplication.dart';
 import 'package:listen/provider/groupApplication.dart';
-import 'package:listen/utils/utils.dart';
+import 'package:listen/provider/user.dart';
+import 'package:listen/utils/toast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:listen/TRTCCallingDemo/model/TRTCCallingDelegate.dart';
@@ -26,6 +27,7 @@ import 'package:tencent_im_sdk_plugin/models/v2_tim_friend_info.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_group_application_result.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_message_receipt.dart';
+import 'package:tencent_im_sdk_plugin/models/v2_tim_user_full_info.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_value_callback.dart';
 import 'package:tencent_im_sdk_plugin/tencent_im_sdk_plugin.dart';
 import '../model/TRTCCalling.dart';
@@ -45,7 +47,7 @@ class TRTCCallingContact extends StatefulWidget {
 class _TRTCCallingContactState extends State<TRTCCallingContact> {
   String searchText = '';
   String myLoginInfoId = '';
-  List<UserModel> userList = [];
+  List<UserInfo> userList = [];
   late ProfileManager _profileManager;
   late TRTCCalling sInstance;
   int _meetingNumber = 0;
@@ -61,7 +63,7 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
 
   //搜索
   onSearchClick() async {
-    List<UserModel> ls =
+    List<UserInfo> ls =
         await ProfileManager.getInstance().queryUserInfo(searchText);
 
     setState(() {
@@ -82,7 +84,7 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
   // }
 
   //发起通话
-  onCallClick(UserModel userInfo) async {
+  onCallClick(UserInfo userInfo) async {
     if (userInfo.userId == myLoginInfoId) {
       toast.Utils.toastError('不能呼叫自己');
       return;
@@ -380,7 +382,7 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
     switch (type) {
       case TRTCCallingDelegate.onInvited:
         {
-          UserModel userInfo = await _profileManager
+          UserInfo userInfo = await _profileManager
               .querySingleUserInfo(params["sponsor"].toString());
           Navigator.pushNamed(context, "/calling/callingView", arguments: {
             "remoteUserInfo": userInfo,
@@ -391,6 +393,55 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
           });
         }
         break;
+      case TRTCCallingDelegate.onKickedOffline:
+        onKickedOffline();
+        break;
+      case TRTCCallingDelegate.onSelfInfoUpdated:
+        onSelfInfoUpdated();
+        break;
+    }
+  }
+
+  void onKickedOffline() async {
+// 被踢下线
+    // 清除本地缓存，回到登录页TODO
+    try {
+      Provider.of<ConversionModel>(context, listen: false).clear();
+      Provider.of<UserModel>(context, listen: false).clear();
+      Provider.of<CurrentMessageListModel>(context, listen: false).clear();
+      Provider.of<FriendListModel>(context, listen: false).clear();
+      Provider.of<FriendApplicationModel>(context, listen: false).clear();
+      Provider.of<GroupApplicationModel>(context, listen: false).clear();
+      // 去掉存的一些数据
+      Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+      SharedPreferences prefs = await _prefs;
+      prefs.remove('token');
+      prefs.remove('sessionId');
+      prefs.remove('phone');
+      prefs.remove('code');
+    } catch (err) {
+      print("someError");
+      print(err);
+    }
+    print("被踢下线了");
+    Utils.toast("你被踢下线了");
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        "/",
+        ModalRoute.withName('/'),
+      );
+    });
+  }
+
+  void onSelfInfoUpdated() async {
+    //自己信息更新，从新获取自己的信息；
+    V2TimValueCallback<String> usercallback =
+        await TencentImSDKPlugin.v2TIMManager.getLoginUser();
+    V2TimValueCallback<List<V2TimUserFullInfo>> infos = await TencentImSDKPlugin
+        .v2TIMManager
+        .getUsersInfo(userIDList: [usercallback.data!]);
+    if (infos.code == 0) {
+      Provider.of<UserModel>(context, listen: false).setInfo(infos.data![0]);
     }
   }
 
