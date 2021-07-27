@@ -33,6 +33,14 @@ abstract class TRTCCalling {
   //                 基础接口
   //
   //////////////////////////////////////////////////////////
+
+  /*
+  * 初始化SDK
+  *
+  * @param sdkAppId 您可以在实时音视频控制台 >【[应用管理](https://console.cloud.tencent.com/trtc/app)】> 应用信息中查看 SDKAppID
+  */
+  Future<ActionCallback> initSDK(int sdkAppId);
+
   /*
   * 设置组件事件监听接口
   *
@@ -55,7 +63,7 @@ abstract class TRTCCalling {
   * @param userSig 腾讯云设计的一种安全保护签名，获取方式请参考 [如何计算 UserSig](https://cloud.tencent.com/document/product/647/17275)。
   * @param 返回值：成功时 code 为0
   */
-  Future<ActionCallback> login(int sdkAppId, String userId, String userSig);
+  Future<ActionCallback> login(String userId, String userSig);
 
   /*
   * 退出登录
@@ -80,7 +88,7 @@ abstract class TRTCCalling {
   * @param groupId    IM群组ID，选填。如果填写该参数，那么通话请求消息是通过群消息系统广播出去的，这种消息广播方式比较简单可靠。如果不填写，那么 TRTCCalling 组件会采用单发消息逐一通知。
   */
   Future<ActionCallback> groupCall(
-      List<String> userIdList, int type, String? groupId);
+      List<String> userIdList, int type, int? groupId);
 
   /*
   * 当您作为被邀请方收到 {@link TRTCCallingDelegate#onInvited } 的回调时，可以调用该函数接听来电

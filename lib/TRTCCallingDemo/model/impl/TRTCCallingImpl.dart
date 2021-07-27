@@ -3,7 +3,10 @@ import 'dart:math';
 
 import 'package:tencent_im_sdk_plugin/enum/V2TimSDKListener.dart';
 import 'package:tencent_im_sdk_plugin/enum/V2TimSignalingListener.dart';
+import 'package:tencent_im_sdk_plugin/enum/group_add_opt_type.dart';
 import 'package:tencent_im_sdk_plugin/models/v2_tim_callback.dart';
+import 'package:tencent_im_sdk_plugin/models/v2_tim_group_info.dart';
+import 'package:tencent_im_sdk_plugin/models/v2_tim_group_info_result.dart';
 import 'package:tencent_trtc_cloud/tx_beauty_manager.dart';
 
 import '../TRTCCalling.dart';
@@ -39,6 +42,7 @@ class TRTCCallingImpl extends TRTCCalling {
   String mCurGroupId = ""; //当前群组通话的群组ID
   String? mNickName;
   String? mFaceUrl;
+  String? loginedUserId;
 
   /*
    * 当前邀请列表
@@ -255,7 +259,8 @@ class TRTCCallingImpl extends TRTCCalling {
           'sponsor': inviter,
           'userIds': inviteeList.remove(mCurUserId),
           'isFromGroup': !_isEmpty(groupID),
-          'type': mCurCallType
+          'type': mCurCallType,
+          "groupId": groupID,
         });
       },
     );
@@ -337,30 +342,37 @@ class TRTCCallingImpl extends TRTCCalling {
   }
 
   @override
-  Future<ActionCallback> login(
-      int sdkAppId, String userId, String userSig) async {
+  Future<ActionCallback> initSDK(int sdkAppId) async {
     mSdkAppId = sdkAppId;
+    V2TimValueCallback<bool> initRes = await timManager.initSDK(
+        sdkAppID: sdkAppId, //填入在控制台上申请的sdkappid
+        loglevel: LogLevel.V2TIM_LOG_ERROR,
+        listener: new V2TimSDKListener(onKickedOffline: () {
+          TRTCCallingDelegate type = TRTCCallingDelegate.onKickedOffline;
+          emitEvent(type, {});
+        }, onSelfInfoUpdated: (info) {
+          TRTCCallingDelegate type = TRTCCallingDelegate.onSelfInfoUpdated;
+          emitEvent(type, {});
+        }));
+    if (initRes.code != 0) {
+      //初始化sdk错误
+      return ActionCallback(code: codeErr, desc: 'init im sdk error');
+    } else {
+      mIsInitIMSDK = true;
+      return ActionCallback(code: 0, desc: 'login im success');
+    }
+  }
+
+  @override
+  Future<ActionCallback> login(String userId, String userSig) async {
     mCurUserId = userId;
     mCurUserSig = userSig;
 
     if (!mIsInitIMSDK) {
-      //初始化SDK
-      V2TimValueCallback<bool> initRes = await timManager.initSDK(
-          sdkAppID: sdkAppId, //填入在控制台上申请的sdkappid
-          loglevel: LogLevel.V2TIM_LOG_ERROR,
-          listener: new V2TimSDKListener(onKickedOffline: () {
-            TRTCCallingDelegate type = TRTCCallingDelegate.onKickedOffline;
-            emitEvent(type, {});
-          }));
-      if (initRes.code != 0) {
-        //初始化sdk错误
-        return ActionCallback(code: codeErr, desc: 'init im sdk error');
-      }
+      return ActionCallback(code: codeErr, desc: 'im sdk not init');
     }
-    mIsInitIMSDK = true;
-
     // 登陆到 IM
-    String? loginedUserId = (await timManager.getLoginUser()).data;
+    loginedUserId = (await timManager.getLoginUser()).data;
 
     if (loginedUserId != null && loginedUserId == userId) {
       mIsLogin = true;
@@ -465,19 +477,81 @@ class TRTCCallingImpl extends TRTCCalling {
             : TRTCCloudDef.TRTC_APP_SCENE_AUDIOCALL);
   }
 
+  Future<ActionCallback> _createMeeting(int roomId) async {
+    if (!mIsLogin) {
+      return ActionCallback(
+          code: codeErr, desc: 'IM not login yet, create meeting fail.');
+    }
+
+    V2TimValueCallback<String> res = await timManager
+        .getGroupManager()
+        .createGroup(
+            groupType: 'Meeting',
+            groupName: roomId.toString(),
+            groupID: roomId.toString());
+    String desc = res.desc;
+    int code = res.code;
+
+    if (code == 0) {
+      desc = 'Create meeting success.';
+    } else if (code == 10036) {
+      desc =
+          '您当前使用的云通讯账号未开通音视频聊天室功能，创建聊天室数量超过限额，请前往腾讯云官网开通【IM音视频聊天室】，地址：https://cloud.tencent.com/document/product/269/11673';
+    } else if (code == 10037) {
+      desc =
+          '单个用户可创建和加入的群组数量超过了限制，请购买相关套餐,价格地址：https://cloud.tencent.com/document/product/269/11673';
+    } else if (code == 10038) {
+      desc =
+          '群成员数量超过限制，请参考，请购买相关套餐，价格地址：https://cloud.tencent.com/document/product/269/11673';
+    } else if (code == 10025 || code == 10021) {
+      V2TimCallback joinRes =
+          await timManager.joinGroup(groupID: roomId.toString(), message: '');
+
+      if (joinRes.code == 0) {
+        code = 0;
+        desc = 'Group has been created. Join group success.';
+      } else {
+        code = joinRes.code;
+        desc = joinRes.desc;
+      }
+    }
+
+    if (code == 0 || code == 10013) {
+      timManager.getGroupManager().setGroupInfo(
+              info: V2TimGroupInfo(
+            groupType: 'Meeting',
+            groupName: roomId.toString(),
+            groupID: roomId.toString(),
+            groupAddOpt: GroupAddOptType.V2TIM_GROUP_ADD_ANY,
+            introduction: loginedUserId,
+          ));
+    }
+    return ActionCallback(code: code, desc: desc);
+  }
+
   @override
   Future<ActionCallback> groupCall(
-      List<String> userIdList, int type, String? groupId) async {
+      List<String> userIdList, int type, int? groupId) async {
     if (_isListEmpty(userIdList)) {
       return ActionCallback(code: codeErr, desc: 'userIdList is empty');
     }
     if (!isOnCalling) {
       // 首次拨打电话，生成id，并进入trtc房间
-      mCurRoomID = _generateRoomID();
+      mCurRoomID = groupId!;
       mCurCallType = type;
       _enterTRTCRoom();
     }
 
+    var res = await _createMeeting(mCurRoomID);
+    if (res.code != 0) {
+      return ActionCallback(code: res.code, desc: 'create meetting error!');
+    }
+
+    V2TimValueCallback<List<V2TimGroupInfoResult>> groupInfo =
+        await TencentImSDKPlugin.v2TIMManager
+            .getGroupManager()
+            .getGroupsInfo(groupIDList: [mCurRoomID.toString()]);
+    print(groupInfo);
     // 过滤已经邀请的用户id
     List<String> filterInvitedList = [];
     for (var i = 0; i < userIdList.length; i++) {
@@ -490,28 +564,28 @@ class TRTCCallingImpl extends TRTCCalling {
           code: codeErr, desc: 'the userIdList has been invited');
     }
     mCurInvitedList = filterInvitedList;
-    if (_isEmpty(groupId)) {
-      for (int i = 0; i < mCurInvitedList.length; i++) {
-        V2TimValueCallback res = await timManager.getSignalingManager().invite(
-            invitee: mCurInvitedList[i],
-            data: jsonEncode(_getCustomMap()),
-            timeout: timeOutCount,
-            onlineUserOnly: false);
-        mCurCallList.add({'userId': mCurInvitedList[i], 'callId': res.data});
-      }
-      return ActionCallback(code: 0, desc: '');
-    } else {
-      V2TimValueCallback res = await timManager
-          .getSignalingManager()
-          .inviteInGroup(
-              groupID: groupId!,
-              inviteeList: mCurInvitedList,
-              data: jsonEncode(_getCustomMap()),
-              timeout: timeOutCount,
-              onlineUserOnly: false);
-      mCurCallID = res.data;
-      return ActionCallback(code: res.code, desc: res.desc);
+    // if (groupId == 0) {
+    for (int i = 0; i < mCurInvitedList.length; i++) {
+      V2TimValueCallback res = await timManager.getSignalingManager().invite(
+          invitee: mCurInvitedList[i],
+          data: jsonEncode(_getCustomMap()),
+          timeout: timeOutCount,
+          onlineUserOnly: false);
+      // mCurCallList.add({'userId': mCurInvitedList[i], 'callId': res.data});
     }
+    return ActionCallback(code: res.code, desc: res.desc);
+    // } else {
+    //   V2TimValueCallback res = await timManager
+    //       .getSignalingManager()
+    //       .inviteInGroup(
+    //           groupID: groupId!.toString(),
+    //           inviteeList: mCurInvitedList,
+    //           data: jsonEncode(_getCustomMap()),
+    //           timeout: timeOutCount,
+    //           onlineUserOnly: false);
+    //   mCurCallID = res.data;
+    // return ActionCallback(code: res.code, desc: res.desc);
+    // }
   }
 
   _isListEmpty(List? list) {

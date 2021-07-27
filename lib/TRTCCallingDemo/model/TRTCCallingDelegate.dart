@@ -147,5 +147,8 @@ enum TRTCCallingDelegate {
   onUserVoiceVolume,
 
   //其他用户登录了同一账号，被踢下线
-  onKickedOffline
+  onKickedOffline,
+
+  //更新用户信息
+  onSelfInfoUpdated
 }

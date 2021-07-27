@@ -58,7 +58,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool isinit = false;
+  bool isinit = true;
   String? oppoRegId;
 
   void initState() {
@@ -67,10 +67,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   init() async {
-    await initSDK();
-    setState(() {
-      isinit = true;
-    });
+    // await initSDK();
+    // setState(() {
+    //   isinit = true;
+    // });
     // await islogin();
     // await toHomePage();
     // await setOfflinepush();
@@ -919,53 +919,64 @@ class _LoginFormState extends State<LoginForm> {
                               if (tel == '') {
                                 return;
                               }
-                              GenerateTestUserSig usersig =
-                                  new GenerateTestUserSig(
-                                sdkappid: Config.sdkappid,
-                                key: Config.key,
+                              Future<SharedPreferences> _prefs =
+                                  SharedPreferences.getInstance();
+                              SharedPreferences prefs = await _prefs;
+                              prefs.setString("flutter_userID", tel);
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => TRTCCallingContact(
+                                      CallingScenes.AudioOneVOne),
+                                ),
                               );
-                              String pwdStr = usersig.genSig(
-                                  identifier: tel, expire: 86400);
-                              // 按理来说这里是存
-                              TencentImSDKPlugin.v2TIMManager
-                                  .login(
-                                userID: tel,
-                                userSig: pwdStr,
-                              )
-                                  .then((res) async {
-                                if (res.code == 0) {
-                                  V2TimValueCallback<List<V2TimUserFullInfo>>
-                                      infos = await TencentImSDKPlugin
-                                          .v2TIMManager
-                                          .getUsersInfo(userIDList: [tel]);
+                              // GenerateTestUserSig usersig =
+                              //     new GenerateTestUserSig(
+                              //   sdkappid: Config.sdkappid,
+                              //   key: Config.key,
+                              // );
+                              // String pwdStr = usersig.genSig(
+                              //     identifier: tel, expire: 86400);
+                              // // 按理来说这里是存
+                              // TencentImSDKPlugin.v2TIMManager
+                              //     .login(
+                              //   userID: tel,
+                              //   userSig: pwdStr,
+                              // )
+                              //     .then((res) async {
+                              //   if (res.code == 0) {
+                              //     V2TimValueCallback<List<V2TimUserFullInfo>>
+                              //         infos = await TencentImSDKPlugin
+                              //             .v2TIMManager
+                              //             .getUsersInfo(userIDList: [tel]);
 
-                                  if (infos.code == 0) {
-                                    Provider.of<UserModel>(context,
-                                            listen: false)
-                                        .setInfo(infos.data![0]);
-                                  }
-                                  Future<SharedPreferences> _prefs =
-                                      SharedPreferences.getInstance();
-                                  SharedPreferences prefs = await _prefs;
-                                  prefs.setString("flutter_userID", tel);
+                              //     if (infos.code == 0) {
+                              //       Provider.of<UserModel>(context,
+                              //               listen: false)
+                              //           .setInfo(infos.data![0]);
+                              //     }
+                              //     Future<SharedPreferences> _prefs =
+                              //         SharedPreferences.getInstance();
+                              //     SharedPreferences prefs = await _prefs;
+                              //     prefs.setString("flutter_userID", tel);
 
-                                  // 加个群
-                                  // await TencentImSDKPlugin.v2TIMManager
-                                  //     .joinGroup(
-                                  //   groupID: "@TGS#2FGN3DHHB",
-                                  //   message: "大家好",
-                                  // );
-                                  Navigator.push(
-                                    context,
-                                    new MaterialPageRoute(
-                                      builder: (context) => TRTCCallingContact(
-                                          CallingScenes.AudioOneVOne),
-                                    ),
-                                  );
-                                } else {
-                                  Utils.toast("${res.code} ${res.desc}");
-                                }
-                              });
+                              //     // 加个群
+                              //     // await TencentImSDKPlugin.v2TIMManager
+                              //     //     .joinGroup(
+                              //     //   groupID: "@TGS#2FGN3DHHB",
+                              //     //   message: "大家好",
+                              //     // );
+                              //     Navigator.push(
+                              //       context,
+                              //       new MaterialPageRoute(
+                              //         builder: (context) => TRTCCallingContact(
+                              //             CallingScenes.AudioOneVOne),
+                              //       ),
+                              //     );
+                              //   } else {
+                              //     Utils.toast("${res.code} ${res.desc}");
+                              //   }
+                              // });
                               // if (pwd == '') {
                               //   return;
                               // }

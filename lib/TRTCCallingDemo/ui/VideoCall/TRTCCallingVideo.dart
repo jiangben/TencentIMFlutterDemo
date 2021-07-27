@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:listen/pages/conversion/conversion.dart';
 import 'package:tencent_trtc_cloud/trtc_cloud_def.dart';
 import 'package:tencent_trtc_cloud/trtc_cloud_video_view.dart';
 import 'package:listen/TRTCCallingDemo/model/TRTCCalling.dart';
@@ -23,6 +24,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
   CallStatus _currentCallStatus = CallStatus.calling;
   CallTypes _currentCallType = CallTypes.Type_Call_Someone;
   CallingScenes _callingScenes = CallingScenes.AudioOneVOne;
+  int _groupId = 0;
   //已经通话时长
   String _hadCallingTime = "00:00";
   late DateTime _startAnswerTime;
@@ -110,13 +112,15 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
       _remoteUserInfo = arguments['remoteUserInfo'] as UserModel;
       _currentCallType = arguments["callType"] as CallTypes;
       _callingScenes = arguments['callingScenes'] as CallingScenes;
+      _groupId = arguments['groupId'] as int;
       Future.delayed(Duration(microseconds: 100), () {
         if (_currentCallType == CallTypes.Type_Call_Someone) {
-          _tRTCCallingService.call(
-              _remoteUserInfo!.userId,
+          _tRTCCallingService.groupCall(
+              [_remoteUserInfo!.userId],
               _callingScenes == CallingScenes.VideoOneVOne
                   ? TRTCCalling.typeVideoCall
-                  : TRTCCalling.typeAudioCall);
+                  : TRTCCalling.typeAudioCall,
+              _groupId);
         }
       });
     });
@@ -162,10 +166,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
     _tRTCCallingService.closeCamera();
     Future.delayed(Duration(seconds: 1), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(
-          context,
-          "/index",
-        );
+        Navigator.pop(context);
       }
     });
   }
@@ -274,10 +275,7 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
     } else {
       await _tRTCCallingService.hangup();
     }
-    Navigator.pushReplacementNamed(
-      context,
-      "/index",
-    );
+    Navigator.pop(context);
   }
 
   //接听
@@ -615,6 +613,23 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
           child: getSmallVideoContainer(),
         ));
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color(int.parse('006fff', radix: 16)).withAlpha(255),
+          title: Text("倾听聊天室"),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.chat),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => Conversion('group_$_groupId'),
+                  ),
+                );
+              },
+            )
+          ]),
       body: WillPopScope(
         onWillPop: () async {
           return true;
