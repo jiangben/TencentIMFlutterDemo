@@ -314,7 +314,9 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '正在等待对方接受邀请…',
+                      _currentCallType == CallTypes.Type_Call_Someone
+                          ? '正在等待对方接听…'
+                          : '正在请求通话...',
                       style: TextStyle(fontSize: 12, color: Colors.white),
                     ),
                   ],

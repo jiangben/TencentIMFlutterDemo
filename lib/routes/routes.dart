@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:listen/TRTCCallingDemo/ui/TRTCCallingContact.dart';
 import 'package:listen/TRTCCallingDemo/ui/VideoCall/TRTCCallingVideo.dart';
 import 'package:listen/TRTCCallingDemo/ui/base/CallingScenes.dart';
+import 'package:listen/pages/home/index.dart';
 import 'package:listen/pages/login/listenerLogin.dart';
-import 'package:listen/pages/login/login.dart';
 import 'package:listen/pages/login/talkerLogin.dart';
 
 final String initialRoute = "/";
 final Map<String, WidgetBuilder> routes = {
-  "/": (context) => LoginPage(),
-  "/index": (context) => LoginPage(),
-  "/login": (context) => LoginPage(),
+  "/": (context) => IndexPage(),
+  "/index": (context) => IndexPage(),
+  "/login": (context) => TalkerLoginPage(),
   "/talkerLogin": (context) => TalkerLoginPage(),
-  "/listenLogin": (context) => ListenerLoginPage(),
+  "/listenerLogin": (context) => ListenerLoginPage(),
   "/calling/videoContact": (context) =>
       TRTCCallingContact(CallingScenes.VideoOneVOne),
   "/calling/audioContact": (context) =>

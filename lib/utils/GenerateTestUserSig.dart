@@ -29,7 +29,7 @@ class GenerateTestUserSig {
   ///生成UserSig
   String genSig({
     required String identifier,
-    required int expire,
+    int expire = 86400,
     List<int>? userBuf,
   }) {
     int currTime = _getCurrentTime();

@@ -22,6 +22,16 @@ class _ListenerLoginPage extends State<ListenerLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: CommonColors.getThemeColor(),
+        title: Text("倾诉服务"),
+        centerTitle: true,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios), //color: Colors.black
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+      ),
       body: new AppLayout(),
     );
   }

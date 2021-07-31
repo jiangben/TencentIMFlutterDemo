@@ -1,10 +1,11 @@
 import 'dart:ui';
+
 import 'package:listen/pages/login/policyDialog.dart';
 import 'package:listen/utils/ProfileManager_Mock.dart';
-import 'package:listen/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:listen/common/colors.dart';
-import 'package:listen/pages/login/listenerLogin.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:listen/utils/toast.dart' as toast;
 
 class TalkerLoginPage extends StatefulWidget {
   @override
@@ -72,21 +73,15 @@ class LoginBtn extends StatelessWidget {
                   color: CommonColors.getThemeColor(),
                   textColor: Colors.white,
                   onPressed: () async {
-                    var success =
-                        await ProfileManager.getInstance().talkerLogin();
-                    if (success) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return PolicyDialog(
-                            needCode: false,
-                            mdFileName: 'privacy_policy.md',
-                          );
-                        },
-                      );
-                    } else {
-                      Utils.showToast("登录失败", context);
-                    }
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return PolicyDialog(
+                          needCode: false,
+                          mdFileName: 'privacy_policy.md',
+                        );
+                      },
+                    );
                   })),
           SizedBox(height: 10),
           SizedBox(
@@ -114,7 +109,7 @@ class LoginBtn extends StatelessWidget {
                       },
                     );
                   } else {
-                    Utils.showErrorToast("登录失败", context);
+                    toast.Utils.toastError("登录失败");
                   }
                 },
               )),
