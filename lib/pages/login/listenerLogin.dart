@@ -23,11 +23,8 @@ class _ListenerLoginPage extends State<ListenerLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: CommonColors.getThemeColor(),
-        title: Text("倾诉服务"),
-        centerTitle: true,
         leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios), //color: Colors.black
+            icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
               Navigator.pop(context);
             }),
@@ -163,12 +160,7 @@ class _LoginFormState extends State<LoginForm> {
                         var success = await ProfileManager.getInstance()
                             .listenerLogin(name, pwd);
                         if (success) {
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) => ListenerWaitingPage(),
-                            ),
-                          );
+                          Navigator.pushNamed(context, "/listener/waiting");
                         } else {
                           Utils.toastError("登录失败,请重试");
                         }

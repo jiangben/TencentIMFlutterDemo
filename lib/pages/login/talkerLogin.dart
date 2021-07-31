@@ -73,7 +73,7 @@ class LoginBtn extends StatelessWidget {
                   color: CommonColors.getThemeColor(),
                   textColor: Colors.white,
                   onPressed: () async {
-                    showDialog(
+                    bool isAgree = await showDialog(
                       context: context,
                       builder: (context) {
                         return PolicyDialog(
@@ -82,6 +82,14 @@ class LoginBtn extends StatelessWidget {
                         );
                       },
                     );
+                    if (isAgree) {
+                      var success =
+                          await ProfileManager.getInstance().talkerLogin();
+                      if (!success) {
+                        return toast.Utils.toastError("登录错误");
+                      }
+                      Navigator.pushNamed(context, "/talker/waiting");
+                    }
                   })),
           SizedBox(height: 10),
           SizedBox(
@@ -96,20 +104,23 @@ class LoginBtn extends StatelessWidget {
                 color: CommonColors.getThemeColor(),
                 textColor: Colors.white,
                 onPressed: () async {
-                  var success =
-                      await ProfileManager.getInstance().talkerLogin();
-                  if (success) {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return PolicyDialog(
-                          needCode: true,
-                          mdFileName: 'privacy_policy.md',
-                        );
-                      },
-                    );
-                  } else {
-                    toast.Utils.toastError("登录失败");
+                  bool isAgree = await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return PolicyDialog(
+                        needCode: true,
+                        mdFileName: 'privacy_policy.md',
+                      );
+                    },
+                  );
+
+                  if (isAgree) {
+                    var success =
+                        await ProfileManager.getInstance().talkerLogin();
+                    if (!success) {
+                      return toast.Utils.toastError("登录错误");
+                    }
+                    Navigator.pushNamed(context, "/talker/waiting");
                   }
                 },
               )),
@@ -142,7 +153,7 @@ class LoginPopUpMenu extends StatelessWidget {
       onSelected: (String action) {
         switch (action) {
           case "manager":
-            Navigator.pushNamed(context, "/listenerLogin");
+            Navigator.pushNamed(context, "/listener/login");
             break;
         }
       },

@@ -62,7 +62,7 @@ class ProfileManager {
       Utils.setStorageByKey(globalDef.USERID_KEY, userId);
       Utils.setStorageByKey(globalDef.USERSIG_KEY, userSig);
       Utils.setStorageByKey(globalDef.USERROLE_KEY, "listeners");
-      return Future.value(true);
+      return true;
     } else {
       try {
         Response response = await dio
@@ -74,14 +74,14 @@ class ProfileManager {
           Utils.setStorageByKey(globalDef.USERID_KEY, userId);
           Utils.setStorageByKey(globalDef.USERSIG_KEY, userSig);
           Utils.setStorageByKey(globalDef.USERROLE_KEY, "999");
-          return Future.value(true);
+          return true;
         } else {
-          return Future.value(false);
+          return false;
         }
       } on DioError catch (e) {
         print(e.message);
         print("获取appId失败");
-        return Future.value(false);
+        return false;
       }
     }
   }

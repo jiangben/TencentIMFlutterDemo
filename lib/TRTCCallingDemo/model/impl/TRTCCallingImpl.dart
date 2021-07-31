@@ -259,7 +259,6 @@ class TRTCCallingImpl extends TRTCCalling {
 
         mCurSponsorForMe = inviter;
         mCurCallID = inviteID;
-        mCurGroupId = groupID;
         type = TRTCCallingDelegate.onInvited;
         emitEvent(type, {
           'sponsor': inviter,
@@ -516,7 +515,6 @@ class TRTCCallingImpl extends TRTCCalling {
     } else if (code == 10025 || code == 10021) {
       V2TimCallback joinRes =
           await timManager.joinGroup(groupID: roomId.toString(), message: '');
-
       if (joinRes.code == 0) {
         code = 0;
         desc = 'Group has been created. Join group success.';
@@ -581,8 +579,10 @@ class TRTCCallingImpl extends TRTCCalling {
           data: jsonEncode(_getCustomMap()),
           timeout: timeOutCount,
           onlineUserOnly: false);
+      mCurCallID = res.data;
       mCurCallList.add({'userId': mCurInvitedList[i], 'callId': res.data});
     }
+
     return ActionCallback(code: res.code, desc: res.desc);
     // } else {
     //   V2TimValueCallback res = await timManager

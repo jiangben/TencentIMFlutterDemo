@@ -92,11 +92,7 @@ class _PolicyDialogState extends State<PolicyDialog> {
                               return Utils.toastError("授权码错误");
                             }
                           }
-                          Navigator.pushReplacement(context,
-                              new MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                            return TalkerWaitingPage();
-                          }));
+                          Navigator.of(context).pop(true);
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
@@ -118,7 +114,7 @@ class _PolicyDialogState extends State<PolicyDialog> {
                       child: FlatButton(
                         padding: EdgeInsets.all(0),
                         color: Theme.of(context).buttonColor,
-                        onPressed: () => Navigator.of(context).pop(),
+                        onPressed: () => Navigator.of(context).pop(false),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
                             bottomRight: Radius.circular(radius),

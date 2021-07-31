@@ -18,9 +18,9 @@ class MsgInput extends StatelessWidget {
       height: 55,
       child: Row(
         children: [
-          VoiceMsg(toUser, type),
-          TextMsg(toUser, type),
           FaceMsg(toUser, type),
+          // VoiceMsg(toUser, type),
+          TextMsg(toUser, type),
           AdvanceMsg(toUser, type),
         ],
       ),

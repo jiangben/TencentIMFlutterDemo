@@ -239,14 +239,14 @@ class AdvanceMsg extends StatelessWidget {
                   sendFile(context);
                 },
               ),
-              new AdvanceMsgList(
-                name: '自定义',
-                icon: Icon(Icons.topic),
-                onPressed: () {
-                  close();
-                  sendCustomData(context);
-                },
-              ),
+              // new AdvanceMsgList(
+              //   name: '自定义',
+              //   icon: Icon(Icons.topic),
+              //   onPressed: () {
+              //     close();
+              //     sendCustomData(context);
+              //   },
+              // ),
             ].map((e) => AdvanceMsgItem(e)).toList(),
           ),
         );

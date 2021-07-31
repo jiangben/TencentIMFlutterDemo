@@ -141,17 +141,17 @@ class ConversionState extends State<Conversion> {
       appBar: AppBar(
         title: Text("会话"),
         backgroundColor: CommonColors.getThemeColor(),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.account_box,
-              color: CommonColors.getWitheColor(),
-            ),
-            onPressed: () {
-              openProfile(context);
-            },
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(
+        //       Icons.account_box,
+        //       color: CommonColors.getWitheColor(),
+        //     ),
+        //     onPressed: () {
+        //       openProfile(context);
+        //     },
+        //   )
+        // ],
       ),
       body: Column(
         children: [

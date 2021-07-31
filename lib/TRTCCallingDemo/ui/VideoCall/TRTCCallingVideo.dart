@@ -275,7 +275,11 @@ class _TRTCCallingVideoState extends State<TRTCCallingVideo> {
     } else {
       await _tRTCCallingService.hangup();
     }
-    Navigator.pop(context);
+    Future.delayed(Duration(seconds: 1), () {
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    });
   }
 
   //接听

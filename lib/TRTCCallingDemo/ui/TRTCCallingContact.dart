@@ -607,7 +607,7 @@ class _TRTCCallingContactState extends State<TRTCCallingContact> {
             ? Text('视频通话')
             : Text('语音通话'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios), //color: Colors.black
+          icon: Icon(Icons.arrow_back_ios),
           onPressed: () async {
             goIndex();
           },
