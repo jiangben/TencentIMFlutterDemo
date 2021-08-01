@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter/material.dart';
-import 'package:listen/pages/waiting/talkerWaiting.dart';
 import 'package:listen/utils/ProfileManager_Mock.dart';
 import 'package:listen/utils/toast.dart';
 

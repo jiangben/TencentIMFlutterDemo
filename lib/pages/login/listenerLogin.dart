@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:listen/common/colors.dart';
 import 'package:listen/utils/ProfileManager_Mock.dart';
 import 'package:listen/pages/waiting/listenerWaiting.dart';
-import 'package:listen/utils/toast.dart';
+import 'package:listen/utils/toast.dart' as toast;
+import 'package:listen/utils/utils.dart';
+import 'package:listen/utils/globalDef.dart' as globalDef;
+
 // import 'package:tencent_tpns_oppo_push_plugin/enum/importance.dart';
 // import 'package:tencent_tpns_oppo_push_plugin/tencent_tpns_oppo_push_plugin.dart';
 // import 'package:tencent_tpns_vivo_push_plugin/tencent_tpns_vivo_push_plugin.dart';
@@ -23,6 +26,7 @@ class _ListenerLoginPage extends State<ListenerLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: CommonColors.getThemeColor(),
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
@@ -100,11 +104,16 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   void initState() {
     super.initState();
+    getCache();
   }
 
   String name = '';
   String pwd = '';
   bool isGeted = false;
+
+  getCache() async {
+    name = await Utils.getStorageByKey(globalDef.USERNAME_KEY);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,9 +169,10 @@ class _LoginFormState extends State<LoginForm> {
                         var success = await ProfileManager.getInstance()
                             .listenerLogin(name, pwd);
                         if (success) {
+                          Utils.setStorageByKey(globalDef.USERNAME_KEY, name);
                           Navigator.pushNamed(context, "/listener/waiting");
                         } else {
-                          Utils.toastError("登录失败,请重试");
+                          toast.Utils.toastError("登录失败,请重试");
                         }
                       },
                     ),

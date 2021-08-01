@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:listen/TRTCCallingDemo/model/TRTCCalling.dart';
 import 'package:listen/TRTCCallingDemo/ui/base/CallTypes.dart';
 import 'package:listen/TRTCCallingDemo/ui/base/CallingScenes.dart';
-import 'package:listen/base/DemoSevice.dart';
 import 'package:listen/common/colors.dart';
 import 'package:listen/utils/ProfileManager_Mock.dart';
 import 'package:listen/utils/config.dart';
@@ -46,7 +45,7 @@ class ListenerWaitingPage extends StatefulWidget {
 
 class _ListenerWaitingPageState extends State<ListenerWaitingPage> {
   int waitingLength = 0;
-  bool isStanby = false;
+  bool isStanby = true;
   late ProfileManager _profileManager;
   late TRTCCalling sInstance;
 
@@ -387,6 +386,7 @@ class _ListenerWaitingPageState extends State<ListenerWaitingPage> {
   void dispose() {
     super.dispose();
     sInstance.unRegisterListener(onTrtcListener);
+    sInstance.logout();
   }
 
   Future<bool?>? showExitConfirmDialog() {
@@ -431,47 +431,58 @@ class _ListenerWaitingPageState extends State<ListenerWaitingPage> {
             },
           ),
         ),
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Expanded(
-              child: Image(
-            image: AssetImage("images/listener.png"),
-            width: 120.0,
-            height: 120.0,
-          )),
-          SizedBox(height: 20),
-          Text("当前倾诉者排队数量：$waitingLength"),
-          SizedBox(height: 20),
-          Text(isStanby ? "已上线" : "已离线"),
-          SizedBox(height: 20),
-          SizedBox(
-              width: 200.0,
-              height: 50.0,
-              child: RaisedButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // Replace with a Row for horizontal icon + text
-                  children: <Widget>[
-                    Icon(isStanby ? Icons.pause : Icons.play_arrow),
-                    SizedBox(width: 10),
-                    Text(isStanby ? "离开一下" : "开始倾听")
-                  ],
-                ),
-                color: CommonColors.getThemeColor(),
-                textColor: Colors.white,
-                onPressed: () async {
-                  var success =
-                      await ProfileManager.getInstance().getReady(!isStanby);
-                  if (!success) {
-                    return toast.Utils.toastError("网络错误");
-                  }
-                  setState(() {
-                    isStanby = !isStanby;
-                  });
-                },
-              )),
-          SizedBox(height: 20),
-        ])));
+        body: WillPopScope(
+            onWillPop: () async {
+              bool isOk = (await this.showExitConfirmDialog())!;
+              if (isOk) {
+                Navigator.pop(
+                  context,
+                );
+              }
+              return isOk;
+            },
+            child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                  Expanded(
+                      child: Image(
+                    image: AssetImage("images/listener.png"),
+                    width: 120.0,
+                    height: 120.0,
+                  )),
+                  SizedBox(height: 20),
+                  Text("当前倾诉者排队数量：$waitingLength"),
+                  SizedBox(height: 20),
+                  Text(isStanby ? "已上线" : "已离线"),
+                  SizedBox(height: 20),
+                  SizedBox(
+                      width: 200.0,
+                      height: 50.0,
+                      child: RaisedButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // Replace with a Row for horizontal icon + text
+                          children: <Widget>[
+                            Icon(isStanby ? Icons.pause : Icons.play_arrow),
+                            SizedBox(width: 10),
+                            Text(isStanby ? "离开一下" : "开始倾听")
+                          ],
+                        ),
+                        color: CommonColors.getThemeColor(),
+                        textColor: Colors.white,
+                        onPressed: () async {
+                          var success = await ProfileManager.getInstance()
+                              .getReady(!isStanby);
+                          if (!success) {
+                            return toast.Utils.toastError("网络错误");
+                          }
+                          setState(() {
+                            isStanby = !isStanby;
+                          });
+                        },
+                      )),
+                  SizedBox(height: 20),
+                ]))));
   }
 }

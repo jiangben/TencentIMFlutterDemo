@@ -6,7 +6,7 @@ import 'dart:math';
 
 class Utils {
   static String _loginUserId = '';
-  static bool _inDebug = true;
+  static bool _inDebug = false;
   static() {
     if (_loginUserId == '') {
       getStorageByKey(globalDef.USERID_KEY).then((value) {
@@ -22,11 +22,11 @@ class Utils {
     for (var i = 0; i < 9; i++) {
       numStr += rng.nextInt(9).toString();
     }
-    return int.tryParse(numStr);
+    return numStr;
   }
 
   static bool isDebug() {
-    if (_inDebug) return _inDebug;
+    if (!_inDebug) return _inDebug;
     bool inDebug = false;
     assert(inDebug = true);
     return inDebug;

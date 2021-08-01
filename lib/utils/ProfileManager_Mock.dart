@@ -16,14 +16,10 @@ class UserInfo {
 
 class RepTalkInfo {
   bool success;
-  String userId;
-  int waitingLength;
-  int onlineListeners;
-  RepTalkInfo(
-      {this.success = false,
-      this.userId = "",
-      this.waitingLength = 0,
-      this.onlineListeners = 0});
+  int userId;
+  // int waitingLength;
+  // int onlineListeners;
+  RepTalkInfo({this.success = false, this.userId = 0});
 }
 
 class ProfileManager {
@@ -56,7 +52,7 @@ class ProfileManager {
 
   Future<bool> listenerLogin(String name, String pwd) async {
     if (Utils.isDebug()) {
-      var userId = "2222";
+      var userId = "7";
       var userSig =
           GenerateTestUserSig.getInstance().genSig(identifier: userId);
       Utils.setStorageByKey(globalDef.USERID_KEY, userId);
@@ -69,8 +65,10 @@ class ProfileManager {
             .post('/base/login', data: {'username': name, 'password': pwd});
         print(response);
         if (response.data['code'] == 0) {
+          var token = response.data['data']['token'];
+          dio.options.headers['x-token'] = token;
           var userId = response.data['data']['user']['ID'].toString();
-          var userSig = response.data['data']['userSig'];
+          var userSig = response.data['data']['user']['userSig'];
           Utils.setStorageByKey(globalDef.USERID_KEY, userId);
           Utils.setStorageByKey(globalDef.USERSIG_KEY, userSig);
           Utils.setStorageByKey(globalDef.USERROLE_KEY, "999");
@@ -88,7 +86,7 @@ class ProfileManager {
 
   Future<bool> talkerLogin() async {
     if (Utils.isDebug()) {
-      var userId = "1111";
+      var userId = "6";
       var userSig =
           GenerateTestUserSig.getInstance().genSig(identifier: userId);
       Utils.setStorageByKey(globalDef.USERID_KEY, userId);
@@ -97,7 +95,7 @@ class ProfileManager {
       return true;
     } else {
       try {
-        String udid = Utils.getStorageByKey(globalDef.UDID_KEY) as String;
+        String udid = await Utils.getStorageByKey(globalDef.UDID_KEY);
         if (udid.isEmpty) {
           udid = Utils.getRandomNumber();
           print("首次生成udid: $udid");
@@ -107,8 +105,10 @@ class ProfileManager {
             await dio.post('/talker/login', data: {'udid': udid});
         print(response);
         if (response.data['code'] == 0) {
+          var token = response.data['data']['token'];
+          dio.options.headers['x-token'] = token;
           var userId = response.data['data']['user']['ID'].toString();
-          var userSig = response.data['data']['userSig'];
+          var userSig = response.data['data']['user']['userSig'];
           Utils.setStorageByKey(globalDef.USERID_KEY, userId);
           Utils.setStorageByKey(globalDef.USERSIG_KEY, userSig);
           Utils.setStorageByKey(globalDef.USERROLE_KEY, "talker");
@@ -137,6 +137,7 @@ class ProfileManager {
       } on DioError catch (e) {
         print(e.message);
         print("获取appId失败");
+        return false;
       }
       return false;
     }
@@ -155,6 +156,7 @@ class ProfileManager {
       } on DioError catch (e) {
         print(e.message);
         print("设置状态失败");
+        return false;
       }
       return false;
     }
@@ -162,28 +164,42 @@ class ProfileManager {
 
   Future<RepTalkInfo> requestCall() async {
     if (Utils.isDebug()) {
-      return RepTalkInfo(
-          success: true, userId: "2222", waitingLength: 1, onlineListeners: 1);
+      return RepTalkInfo(success: true, userId: 7);
     } else {
       try {
-        Response response = await dio.post('/talker/requestCall');
+        String userId = await Utils.getStorageByKey(globalDef.USERID_KEY);
+        Response response = await dio
+            .post('/talker/requestCall', data: {'userId': int.parse(userId)});
+        print(response);
         if (response.data['code'] == 0) {
-          bool success = response.data['data']['success'];
-          String userId = response.data['data']['userId'];
-          int waitingLength = response.data['data']['waitingLength'];
-          int onlineListeners = response.data['data']['onlineListeners'];
-          return RepTalkInfo(
-              success: success,
-              userId: userId,
-              waitingLength: waitingLength,
-              onlineListeners: onlineListeners);
+          int listenerId = response.data['data']['userId'];
+          // int waitingLength = response.data['data']['waitingLength'];
+          // int onlineListeners = response.data['data']['onlineListeners'];
+          return RepTalkInfo(success: true, userId: listenerId);
         }
       } on DioError catch (e) {
         print(e.message);
         print("请求通话失败");
       }
-      return RepTalkInfo(
-          success: false, userId: "", waitingLength: 0, onlineListeners: 0);
+      return RepTalkInfo(success: false, userId: 0);
     }
+  }
+
+  Future<int> getOnlineListenersSum() async {
+    if (Utils.isDebug()) {
+      return 1;
+    } else {
+      try {
+        Response response = await dio.post('/talker/onlineListeners');
+        if (response.data['code'] == 0) {
+          int onlineListeners = response.data['data'];
+          return onlineListeners;
+        }
+      } on DioError catch (e) {
+        print(e.message);
+        print("获取亲听着数量失败");
+      }
+    }
+    return 0;
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:listen/TRTCCallingDemo/model/TRTCCalling.dart';
 import 'package:listen/TRTCCallingDemo/ui/base/CallTypes.dart';
 import 'package:listen/TRTCCallingDemo/ui/base/CallingScenes.dart';
-import 'package:listen/base/DemoSevice.dart';
 import 'package:listen/common/colors.dart';
 import 'package:listen/utils/ProfileManager_Mock.dart';
 import 'package:listen/utils/config.dart';
@@ -45,7 +44,7 @@ class TalkerWaitingPage extends StatefulWidget {
 }
 
 class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
-  int waitingLength = 0;
+  // int waitingLength = 0;
   int onlineListeners = 0;
   bool isWaiting = false;
   int timer = 0;
@@ -84,9 +83,8 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
           title: Text("提示"),
           content: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text("当前等待队列$waitingLength人"), Text("预计需要较长时间等待")]),
+              children: [Text("当前倾听者$onlineListeners人空闲"), Text("预计需要较长时间等待")]),
           actions: <Widget>[
             ElevatedButton(
               child: Text("确定"),
@@ -102,9 +100,9 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
 
   void apply2Talk() async {
     RepTalkInfo rep = await ProfileManager.getInstance().requestCall();
-    if (rep.success) {
-      UserInfo userInfo =
-          await ProfileManager.getInstance().querySingleUserInfo(rep.userId);
+    if (rep.success && rep.userId != 0) {
+      UserInfo userInfo = await ProfileManager.getInstance()
+          .querySingleUserInfo(rep.userId.toString());
       Navigator.pushNamed(
         context,
         "/calling/callingView",
@@ -121,23 +119,37 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
 
       return;
     } else {
-      setState(() {
-        onlineListeners = rep.onlineListeners;
-        waitingLength = rep.waitingLength;
-      });
-      new Future.delayed(const Duration(milliseconds: 1000), () async {
+      new Future.delayed(const Duration(milliseconds: 10000), () async {
         setState(() {
           timer = ++timer;
         });
         if (!isWaiting) {
           return;
         }
-        if (timer == 60) {
+        if (timer == 30) {
+          getOnlineListenersSum();
           showWaitingOvertimeDialog();
         }
         apply2Talk();
       });
     }
+  }
+
+  void getOnlineListenersSum() async {
+    int sum = await ProfileManager.getInstance().getOnlineListenersSum();
+    setState(() {
+      onlineListeners = sum;
+    });
+  }
+
+  void refreshOnlineSum() async {
+    if (isWaiting) {
+      return;
+    }
+    getOnlineListenersSum();
+    new Future.delayed(const Duration(milliseconds: 3000), () async {
+      refreshOnlineSum();
+    });
   }
 
   goLoginPage() {
@@ -471,12 +483,14 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
   void initState() {
     super.initState();
     initUserInfo();
+    refreshOnlineSum();
   }
 
   @override
   void dispose() {
     super.dispose();
     sInstance.unRegisterListener(onTrtcListener);
+    sInstance.logout();
   }
 
   @override
@@ -498,49 +512,61 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
             },
           ),
         ),
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Expanded(
-              child: Image(
-            image: AssetImage("images/care.png"),
-            width: 120.0,
-            height: 120.0,
-          )),
-          SizedBox(height: 20),
-          Text("当前倾听者数量：$onlineListeners人空闲"),
-          SizedBox(height: 20),
-          Text("等待队列：$waitingLength人"),
-          SizedBox(height: 20),
-          Text(isWaiting ? "正在呼叫 $timer s" : "已停止呼叫"),
-          SizedBox(height: 20),
-          SizedBox(
-              width: 200.0,
-              height: 50.0,
-              child: RaisedButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // Replace with a Row for horizontal icon + text
-                  children: <Widget>[
-                    Icon(
-                        isWaiting ? Icons.phone_disabled : Icons.phone_enabled),
-                    SizedBox(width: 10),
-                    Text(isWaiting ? "取消请求" : "发起请求")
-                  ],
-                ),
-                color: CommonColors.getThemeColor(),
-                textColor: Colors.white,
-                onPressed: () {
-                  setState(() {
-                    isWaiting = !isWaiting;
-                  });
-                  if (isWaiting) {
-                    timer = 0;
-                    apply2Talk();
-                  }
-                },
-              )),
-          SizedBox(height: 20),
-        ])));
+        body: WillPopScope(
+            onWillPop: () async {
+              bool isOk = (await this.showExitConfirmDialog())!;
+              if (isOk) {
+                Navigator.pop(
+                  context,
+                );
+              }
+              return isOk;
+            },
+            child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                  Expanded(
+                      child: Image(
+                    image: AssetImage("images/care.png"),
+                    width: 120.0,
+                    height: 120.0,
+                  )),
+                  SizedBox(height: 20),
+                  Text("当前倾听者数量：$onlineListeners人空闲"),
+                  SizedBox(height: 20),
+                  Text(isWaiting ? "正在呼叫 $timer s" : "已停止呼叫"),
+                  SizedBox(height: 20),
+                  SizedBox(
+                      width: 200.0,
+                      height: 50.0,
+                      child: RaisedButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // Replace with a Row for horizontal icon + text
+                          children: <Widget>[
+                            Icon(isWaiting
+                                ? Icons.phone_disabled
+                                : Icons.phone_enabled),
+                            SizedBox(width: 10),
+                            Text(isWaiting ? "取消请求" : "发起请求")
+                          ],
+                        ),
+                        color: CommonColors.getThemeColor(),
+                        textColor: Colors.white,
+                        onPressed: () {
+                          setState(() {
+                            isWaiting = !isWaiting;
+                          });
+                          if (isWaiting) {
+                            timer = 0;
+                            apply2Talk();
+                          } else {
+                            refreshOnlineSum();
+                          }
+                        },
+                      )),
+                  SizedBox(height: 20),
+                ]))));
   }
 }
