@@ -47,7 +47,9 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
   // int waitingLength = 0;
   int onlineListeners = 0;
   bool isWaiting = false;
+  bool isRefresh = true;
   int timer = 0;
+  bool isInit = false;
   late ProfileManager _profileManager;
   late TRTCCalling sInstance;
 
@@ -119,7 +121,7 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
 
       return;
     } else {
-      new Future.delayed(const Duration(milliseconds: 10000), () async {
+      new Future.delayed(const Duration(milliseconds: 1000), () async {
         setState(() {
           timer = ++timer;
         });
@@ -143,7 +145,7 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
   }
 
   void refreshOnlineSum() async {
-    if (isWaiting) {
+    if (!isRefresh) {
       return;
     }
     getOnlineListenersSum();
@@ -181,6 +183,7 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
     await sInstance.login(loginId, userSig);
     sInstance.unRegisterListener(onTrtcListener);
     sInstance.registerListener(onTrtcListener);
+
     if (loginId == '') {
       toast.Utils.toastError("请先登录。");
       goLoginPage();
@@ -489,8 +492,11 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
   @override
   void dispose() {
     super.dispose();
+    isRefresh = false;
+    isWaiting = false;
     sInstance.unRegisterListener(onTrtcListener);
     sInstance.logout();
+    ProfileManager.getInstance().logout();
   }
 
   @override
@@ -520,6 +526,7 @@ class _TalkerWaitingPageState extends State<TalkerWaitingPage> {
                   context,
                 );
               }
+
               return isOk;
             },
             child: Center(

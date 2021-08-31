@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:listen/custom_animation.dart';
+import 'package:flutter_bugly/flutter_bugly.dart';
 
 import 'package:listen/pages/login/login.dart';
 import 'package:listen/provider/conversion.dart';
@@ -23,6 +24,10 @@ void main() {
   );
   SystemChrome.setSystemUIOverlayStyle(style);
   // 看看有没有sessionID和token;如果有，直接登录了
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+  };
   runApp(
     MultiProvider(
       providers: [
@@ -41,6 +46,7 @@ void main() {
       ),
     ),
   );
+  FlutterBugly.init(androidAppId: "d43b0e0efa", iOSAppId: "cf07d686e1");
   configLoading();
 }
 

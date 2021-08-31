@@ -29,6 +29,7 @@ class _PolicyDialogState extends State<PolicyDialog> {
   String mdFileName;
   bool needCode;
   String code = "";
+  bool _isButtonTapped = false;
   _PolicyDialogState(this.radius, this.mdFileName, this.needCode);
 
   @override
@@ -81,17 +82,22 @@ class _PolicyDialogState extends State<PolicyDialog> {
                         padding: EdgeInsets.all(0),
                         color: Theme.of(context).buttonColor,
                         onPressed: () async {
+                          if (_isButtonTapped) {
+                            return;
+                          }
+                          _isButtonTapped = true;
                           if (needCode) {
                             if (code.isEmpty) {
                               return Utils.toastError("请输入授权码");
                             }
                             var success = await ProfileManager.getInstance()
-                                .autoCode(code);
+                                .authCode(code);
                             if (!success) {
                               return Utils.toastError("授权码错误");
                             }
                           }
                           Navigator.of(context).pop(true);
+                          _isButtonTapped = false;
                         },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(

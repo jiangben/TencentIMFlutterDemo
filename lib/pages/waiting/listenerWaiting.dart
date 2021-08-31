@@ -44,7 +44,7 @@ class ListenerWaitingPage extends StatefulWidget {
 }
 
 class _ListenerWaitingPageState extends State<ListenerWaitingPage> {
-  int waitingLength = 0;
+  // int waitingLength = 0;
   bool isStanby = true;
   late ProfileManager _profileManager;
   late TRTCCalling sInstance;
@@ -452,8 +452,8 @@ class _ListenerWaitingPageState extends State<ListenerWaitingPage> {
                     height: 120.0,
                   )),
                   SizedBox(height: 20),
-                  Text("当前倾诉者排队数量：$waitingLength"),
-                  SizedBox(height: 20),
+                  // Text("当前倾诉者排队数量：$waitingLength"),
+                  // SizedBox(height: 20),
                   Text(isStanby ? "已上线" : "已离线"),
                   SizedBox(height: 20),
                   SizedBox(

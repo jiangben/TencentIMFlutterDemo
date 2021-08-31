@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:listen/utils/GenerateTestUserSig.dart';
 import 'package:listen/utils/http.dart';
+import 'package:flutter_bugly/flutter_bugly.dart';
 
 import 'utils.dart';
 import 'globalDef.dart' as globalDef;
@@ -114,17 +115,18 @@ class ProfileManager {
           Utils.setStorageByKey(globalDef.USERROLE_KEY, "talker");
           return true;
         } else {
+          print("登录失败");
           return false;
         }
       } on DioError catch (e) {
         print(e.message);
-        print("登录失败");
+        print("网络失败 登录");
         return false;
       }
     }
   }
 
-  Future<bool> autoCode(String code) async {
+  Future<bool> authCode(String code) async {
     if (Utils.isDebug()) {
       return true;
     } else {
@@ -133,13 +135,20 @@ class ProfileManager {
             await dio.post('/talker/authCode', data: {'code': code});
         if (response.data['code'] == 0) {
           return true;
+        } else {
+          return false;
         }
       } on DioError catch (e) {
         print(e.message);
-        print("获取appId失败");
-        return false;
+        print("授权码网络错误");
+        Response response =
+            await dio.post('/talker/authCode', data: {'code': code});
+        if (response.data['code'] == 0) {
+          return true;
+        } else {
+          return false;
+        }
       }
-      return false;
     }
   }
 
@@ -155,6 +164,7 @@ class ProfileManager {
         }
       } on DioError catch (e) {
         print(e.message);
+        uploadException('网络错误', 'getReady');
         print("设置状态失败");
         return false;
       }
@@ -180,6 +190,7 @@ class ProfileManager {
       } on DioError catch (e) {
         print(e.message);
         print("请求通话失败");
+        uploadException('网络错误', 'requestCall');
       }
       return RepTalkInfo(success: false, userId: 0);
     }
@@ -198,8 +209,19 @@ class ProfileManager {
       } on DioError catch (e) {
         print(e.message);
         print("获取亲听着数量失败");
+        uploadException('网络错误', 'getOnlineListenersSum');
       }
     }
     return 0;
+  }
+
+  static Future<Null> uploadException(
+      String title, //标题
+      String detail, //内容
+      {Map? data} //data为文本附件, Android 错误分析=>跟踪数据=>extraMessage.txt
+      //iOS 错误分析=>跟踪数据=>crash_attach.log
+      ) {
+    return FlutterBugly.uploadException(
+        message: title, detail: detail, data: data);
   }
 }
